@@ -1,28 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>LINE LIFF</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベント入場QRコード</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f8f8;
+            height: 100%;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            justify-content: space-between;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
         #qrcode {
+            flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            padding: 20px;
         }
-    </style>    
+        .footer {
+            background-color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
-
-
 <body>
-    <div id="qrcode">
-        <p>テキストテキスト</p>
+    <div class="container">
+        <header class="header">
+            <h1>イベント入場QRコード</h1>
+        </header>
+        <div id="qrcode"></div>
+        <footer class="footer">
+            <p>このQRコードをスタッフにご提示ください</p>
+        </footer>
     </div>
-
     <script>
         async function main() {
             await liff.init({ liffId: "2001381147-l1M9Q2Oj" });
-
             if (!liff.isLoggedIn()) {
                 liff.login();
             } else {
@@ -31,21 +68,17 @@
                 generateQRCode(userId);
             }
         }
-
         function generateQRCode(text) {
             const qrcodeContainer = document.getElementById('qrcode');
             qrcodeContainer.innerHTML = ''; // Clear the container
             const qrcode = new QRCode(qrcodeContainer, {
                 text: text,
-                width: 600,
-                height: 600
+                width: 300,
+                height: 300
             });
         }
-
-
         main();
     </script>
-
     <!-- QRコード生成のためのライブラリ -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 </body>
