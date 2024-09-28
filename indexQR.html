@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LINE LIFF</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>    
+</head>
+
+
+<body>
+    <div id="qrcode">
+        <p>QRコード取得中...</p>
+    </div>
+
+    <script>
+        async function main() {
+            await liff.init({ liffId: "2001381147-OALZKQMg" });
+
+            if (!liff.isLoggedIn()) {
+                liff.login();
+            } else {
+                const profile = await liff.getProfile();
+                const userId = profile.userId;
+                generateQRCode(userId);
+            }
+        }
+
+        function generateQRCode(text) {
+            const qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = ''; // Clear the container
+            const qrcode = new QRCode(qrcodeContainer, {
+                text: text,
+                width: 600,
+                height: 600
+            });
+        }
+
+
+        main();
+    </script>
+
+    <!-- QRコード生成のためのライブラリ -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+</body>
+</html>
